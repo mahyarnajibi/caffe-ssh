@@ -308,7 +308,7 @@ message ParamSpec {
 // NOTE
 // Update the next available ID when you add a new LayerParameter field.
 //
-// LayerParameter next available layer-specific ID: 147 (last added: recurrent_param)
+// LayerParameter next available layer-specific ID: 148 (last added: smooth_l1_loss)
 message LayerParameter {
   optional string name = 1; // the layer name
   optional string type = 2; // the layer type
@@ -405,6 +405,7 @@ message LayerParameter {
   optional ThresholdParameter threshold_param = 128;
   optional TileParameter tile_param = 138;
   optional WindowDataParameter window_data_param = 129;
+  optional SmoothL1LossParameter smooth_l1_loss_param = 148;
 }
 
 // Message that stores parameters used to apply transformation
@@ -1127,6 +1128,13 @@ message SliceParameter {
   optional uint32 slice_dim = 1 [default = 1];
 }
 
+message SmoothL1LossParameter {
+  // SmoothL1Loss(x) =
+  //   0.5 * (sigma * x) ** 2    -- if x < 1.0 / sigma / sigma
+  //   |x| - 0.5 / sigma / sigma -- otherwise
+  optional float sigma = 1 [default = 1];
+}
+
 // Message that stores parameters used by SoftmaxLayer, SoftmaxWithLossLayer
 message SoftmaxParameter {
   enum Engine {
@@ -1141,6 +1149,7 @@ message SoftmaxParameter {
   // Any other axes will be evaluated as independent softmaxes.
   optional int32 axis = 2 [default = 1];
 }
+
 
 message TanHParameter {
   enum Engine {

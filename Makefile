@@ -316,10 +316,10 @@ endif
 
 # Debugging
 ifeq ($(DEBUG), 1)
-	COMMON_FLAGS += -DDEBUG -g -O0
+	COMMON_FLAGS += -DDEBUG -g -O0 -std=c++11
 	NVCCFLAGS += -G
 else
-	COMMON_FLAGS += -DNDEBUG -O2
+	COMMON_FLAGS += -DNDEBUG -O2 -std=c++11
 endif
 
 # cuDNN acceleration configuration.
@@ -327,7 +327,9 @@ ifeq ($(USE_CUDNN), 1)
 	LIBRARIES += cudnn
 	COMMON_FLAGS += -DUSE_CUDNN
 endif
-
+ifeq ($(USE_INDEX_64),1)
+	COMMON_FLAGS += -DUSE_INDEX_64
+endif
 # NCCL acceleration configuration
 ifeq ($(USE_NCCL), 1)
 	LIBRARIES += nccl
